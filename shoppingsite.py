@@ -41,14 +41,14 @@ def list_melons():
                            melon_list=melon_list)
 
 
-@app.route("/melon/<melon_id>")
+@app.route("/melon/<path:melon_id>")
 def show_melon(melon_id):
     """Return page showing the details of a given melon.
 
     Show all info about a melon. Also, provide a button to buy that melon.
     """
 
-    melon = melons.get_by_id("meli")
+    melon = melons.get_by_id(melon_id)
     print(melon)
     return render_template("melon_details.html",
                            display_melon=melon)
