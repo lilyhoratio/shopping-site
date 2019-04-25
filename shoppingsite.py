@@ -6,7 +6,7 @@ put melons in a shopping cart.
 Authors: Joel Burton, Christian Fernandez, Meggie Mahnken, Katie Byers.
 """
 
-from flask import Flask, render_template, redirect, flash
+from flask import Flask, render_template, redirect, flash, session
 import jinja2
 
 import melons
@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 # A secret key is needed to use Flask sessioning features
 
-app.secret_key = 'this-should-be-something-unguessable'
+app.secret_key = 'hfoiashdlknaswdhkad492mjasdlkas'
 
 # Normally, if you refer to an undefined variable in a Jinja template,
 # Jinja silently ignores this. This makes debugging difficult, so we'll
@@ -28,7 +28,6 @@ app.jinja_env.undefined = jinja2.StrictUndefined
 @app.route("/")
 def index():
     """Return homepage."""
-
     return render_template("homepage.html")
 
 
@@ -97,6 +96,22 @@ def add_to_cart(melon_id):
     # - increment the count for that melon id by 1
     # - flash a success message
     # - redirect the user to the cart page
+    print("session: ", session)
+    print("******************************************")
+    if 'cart' not in session:
+        session['cart'] = {}
+        print("next session:", session)
+        print("ONLY RUN ONCE")
+
+    # session['cart'][melon_id] = session['cart'].get(melon_id, 0) + 1
+    session['cart'] = {}
+
+    print(session.keys())
+    print(session['cart'])
+    print(session['cart'][melon_id])
+    print("LOOK HERE", session)
+
+
 
     return "Oops! This needs to be implemented!"
 
@@ -145,4 +160,4 @@ def checkout():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port = 5001, debug=True)
